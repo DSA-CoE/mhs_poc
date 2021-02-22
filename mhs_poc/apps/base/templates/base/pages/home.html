@@ -1,0 +1,29 @@
+{% extends "../layouts/default.html" %} {% block main_content %}
+<div
+  id="vue-app"
+  class="flex flex-col items-center justify-center h-screen space-y-3"
+>
+  <h1 class="text-3xl">Welcome to the DSA Django Template!</h1>
+  <p class="text-lg">
+    You're logged in as
+    <span class="font-semibold">{{ user.get_username }}</span>
+  </p>
+  <h1>Count: [[count]]</h1>
+  <button @click="count++" class="p-2 border border-blue-100 hover:bg-blue-100">
+    Click here to increment counter!
+  </button>
+  <a href="{% url 'logout' %}" class="p-2 border hover:bg-gray-100"
+    >Click here to logout</a
+  >
+</div>
+
+<script type="text/javascript" nonce="{{request.csp_nonce}}">
+  let app = new Vue({
+    el: "#vue-app",
+    delimiters: ["[[", "]]"],
+    data: {
+      count: 0,
+    },
+  });
+</script>
+{% endblock %}

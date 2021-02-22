@@ -1,0 +1,26 @@
+{
+  "name": "styles",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "npm run clean && npm run dev:postcss && npm run dev:minify",
+    "dev:postcss": "postcss --config . --map true styles.css --output ../static/css/tailwind.min.css",
+    "dev:minify": "csso ../static/css/tailwind.min.css --output ../static/css/tailwind.min.css",
+    "build": "npm run clean && npm run build:postcss && npm run build:minify",
+    "build:postcss": "NODE_ENV=production postcss --config . --map false styles.css --output ../static/css/tailwind.min.css",
+    "build:minify": "csso ../static/css/tailwind.min.css --output ../static/css/tailwind.min.css",
+    "clean": "rimraf ../static/css",
+    "dev:cleancss": "cleancss -o ../static/css/tailwind.clean.css ../static/css/tailwind.min.css",
+    "build:cleancss": "cleancss -o ../static/css/tailwind.clean.build.css ../static/css/tailwind.min.css"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "autoprefixer": "^10.2.3",
+    "clean-css-cli": "^4.3.0",
+    "csso-cli": "^3.0.0",
+    "postcss": "^8.2.4",
+    "postcss-cli": "^8.3.1",
+    "rimraf": "^3.0.2",
+    "tailwindcss": "^2.0.2"
+  }
+}

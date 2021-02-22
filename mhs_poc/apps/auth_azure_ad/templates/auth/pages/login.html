@@ -1,0 +1,119 @@
+{% extends "auth/layouts/default.html" %} {% block main_content %}
+<!-- prettier-ignore -->
+<div
+  class="flex flex-col justify-center min-h-screen py-12 bg-gray-50 sm:px-6 lg:px-8"
+>
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <h2 class="mt-6 text-3xl font-extrabold text-center text-gray-900">
+      Login to your account
+    </h2>
+  </div>
+
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
+      <form class="space-y-6" role="form" action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700">
+            Lan ID
+          </label>
+          <div class="mt-1">
+            <input
+              id="{{ form.username.id_for_label }}"
+              name="{{ form.username.html_name }}"
+              type="text"
+              autocomplete="on"
+              required
+              class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700">
+            Password
+          </label>
+          <div class="mt-1">
+            <input
+              id="{{ form.password.id_for_label }}"
+              name="{{ form.password.html_name }}"
+              type="password"
+              autocomplete="current-password"
+              required
+              class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            />
+          </div>
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            class="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Login
+          </button>
+        </div>
+
+        <div class="text-sm text-center">
+          {% if form.errors %}
+          <p class="my-4 font-medium text-red-500">
+            Your username and/or password didn't match.
+            <br aria-hidden="true" />
+            Please try again.
+          </p>
+          {% endif %}
+        </div>
+      </form>
+
+      <div class="mt-6">
+        <div class="relative">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-gray-300"></div>
+          </div>
+          <div class="relative flex justify-center text-sm">
+            <span class="px-2 text-gray-500 bg-white"> Or continue with </span>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <div>
+            <button
+              id="microsoft-login-button"
+              type="button"
+              class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
+            >
+              <span class="pr-2">Microsoft</span>
+              <svg
+                class="w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <title>Microsoft icon</title>
+                <path
+                  d="M0 0v11.408h11.408V0zm12.594 0v11.408H24V0zM0 12.594V24h11.408V12.594zm12.594 0V24H24V12.594z"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% load static %}
+<script
+  type="text/javascript"
+  src="{% static 'js/microsoft-login.js' %}"
+  nonce="{{request.csp_nonce}}"
+></script>
+<script type="text/javascript" nonce="{{request.csp_nonce}}">
+  document.addEventListener("DOMContentLoaded", function (event) {
+    window.microsoft.login = new window.microsoft.objects.LoginController({
+      authorization_url: "{{ microsoft_authorization_url }}",
+    });
+  });
+</script>
+
+{% endblock %}
